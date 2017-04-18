@@ -1,0 +1,11 @@
+class Solution:
+    # @param n, an integer
+    # @return an integer
+    def reverseBits(self, n):
+        order = 31
+        new_n = 0
+        while n > 0:
+            new_n += (n % 2) * (2 ** order)
+            n = n / 2
+            order -= 1
+        return new_n
