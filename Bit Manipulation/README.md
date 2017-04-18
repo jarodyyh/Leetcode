@@ -8,4 +8,4 @@
 1. bitwise operator:
         a & b
         a | b
-        a >> 1
+        a >> 1 
