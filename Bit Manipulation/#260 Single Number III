@@ -1,0 +1,17 @@
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        output = reduce(operator.xor, nums)
+        output &= -output
+        
+        two_nums = [0, 0]
+        for num in nums:
+            if num & output == 0:
+                two_nums[0] ^= num
+            else:
+                two_nums[1] ^= num
+        
+        return two_nums
