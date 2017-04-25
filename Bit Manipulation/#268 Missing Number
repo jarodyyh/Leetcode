@@ -1,0 +1,18 @@
+class Solution(object):
+    def missingNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        target, index, flag = 0, 0, 0
+        
+        for index in range(len(nums)):
+            target = target ^ index ^ nums[index]
+            if nums[index] == 0:
+                flag = 1
+        if target == 0:
+            return len(nums)
+        elif flag == 0:
+            return 0
+        else:
+            return target ^ (index + 1)
