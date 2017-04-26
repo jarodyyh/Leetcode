@@ -13,3 +13,7 @@
 
 ### #260
 1. -a = ~(a-1)
+
+### #318. Maximum Product of Word Lengths 
+1. Not finished yet
+ 
