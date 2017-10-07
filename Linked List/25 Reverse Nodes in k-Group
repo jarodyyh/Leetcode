@@ -1,0 +1,52 @@
+/**
+ * class ListNode {
+ *   public int value;
+ *   public ListNode next;
+ *   public ListNode(int value) {
+ *     this.value = value;
+ *     next = null;
+ *   }
+ * }
+ */
+public class Solution {
+  public ListNode reverseKGroup(ListNode head, int k) {
+    //corner case
+    if (head == null || k <= 1) return head;
+    
+    //maintain a sliding window
+    ListNode dummy = new ListNode(0);
+    dummy.next = head;
+    head = dummy;
+
+    while (head.next != null) {
+      head = reverseNextK(head, k);
+    }
+    
+    return dummy.next;
+  }
+  
+  public ListNode reverseNextK (ListNode head, int k) {
+    // head-n1-n2...-nl-next-...
+    //=> head-nl-...-n2-n1-next-...
+    
+    ListNode next = head;
+    for (int i = 0; i < k; i++) {
+      if (next.next == null) return next;
+      next = next.next;
+    }
+    
+    //reverse
+    ListNode nl = head.next;
+    ListNode prev = head;
+    ListNode cur = nl;
+    for (int i = 0; i < k; i++) {
+      ListNode tmp = cur.next;
+      cur.next = prev;
+      prev = cur;
+      cur = tmp;
+    }
+    nl.next = cur;
+    head.next = prev;
+    return nl;
+  }
+}
