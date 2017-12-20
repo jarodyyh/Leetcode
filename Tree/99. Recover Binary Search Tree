@@ -1,3 +1,61 @@
 //O(n): http://www.cnblogs.com/springfor/p/3891390.html
 
 
+
+public class Solution {
+    TreeNode first = null;
+    TreeNode second = null;
+    TreeNode prev = null;
+    
+  public TreeNode recover(TreeNode root) {
+    // check if it is a BST --> wrong
+    // using in-order traverse
+    // for this case, the first node should be first-node of decreasing;
+    //                the second node should be second-node of decreasing
+    // swap the keys of two nodes
+    
+    if (root == null) {
+      return root;
+    }
+
+    inOrder(root);
+    
+    if (first != null && second != null) {
+      int tmp = first.key;
+      first.key = second.key;
+      second.key = tmp;
+    }
+    return root;
+  }
+  
+  private void inOrder(TreeNode root) {
+    if (root == null) {
+      return;
+    }
+    
+    // in-order traverse:
+    // left child
+    if (root.left != null) {
+      inOrder(root.left);
+    }
+    
+    // do something
+    if (prev == null) {
+      prev = root; // initialize
+    } else {
+      if (prev.key > root.key) {
+        if (first == null) {
+          first = prev;
+        } 
+        second = root;
+     }
+     prev = root;
+    }
+    
+    // right child
+    if (root.right != null) {
+      inOrder(root.right);
+    }
+    
+  }
+}
