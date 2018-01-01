@@ -1,0 +1,37 @@
+//Method Recursive:
+
+public TreeNode invertTree(TreeNode root) {
+    // Similar structure as post-order
+    // base case:
+    if (root == null) {
+        return null;
+    }
+    
+    // recursive rule:
+    // ask TreeNode of two children nodes:
+    TreeNode right = invertTree(root.right);
+    TreeNode left = invertTree(root.left);
+    
+    // things to do in this level:
+    // swap the obtained two children noded:
+    root.left = right;
+    root.right = left;
+    return root;
+}
+
+
+
+//  Method Recursive 2:
+//  optimized method 1:
+public class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null)
+            return root;
+        
+        TreeNode tmp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(tmp);
+        
+        return root;
+    }
+}
