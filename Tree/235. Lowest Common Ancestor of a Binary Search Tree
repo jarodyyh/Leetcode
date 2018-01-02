@@ -1,0 +1,28 @@
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // method is recursion
+        // ask for null (no node appeas) or node
+        // case 1: if two children are non-null, return root;
+        // case 2: if only one child is non-null, return non-null child;
+        // post-order
+        
+        // base case & what to do in this level:
+        if (root == null || root.val == p.val || root.val == q.val) {
+            return root;
+        } 
+        
+        // what ask from children:
+        root.left =  lowestCommonAncestor(root.left,  p,  q);
+        root.right =  lowestCommonAncestor(root.right,  p,  q);
+        
+        // what to send to parent:
+        if (root.left != null && root.right != null) {
+            return root;
+        } else if (root.left != null || root.right != null) {
+            return root.left == null? root.right : root.left;
+        } else {
+            return null;
+        }
+        
+    }
+}
