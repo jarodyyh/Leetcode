@@ -1,0 +1,28 @@
+class Solution {
+    int min1;
+    int ans = Integer.MAX_VALUE;
+    
+    public int findSecondMinimumValue(TreeNode root) {
+        // this question can be used as a pre-order
+        // try BFS: if find 1st different value, break ==> wrong thought: second min may be in very deep level
+        // need to use DFS and cut subtree if different value found in each path
+        // based case:
+        if (root == null) return -1;
+        min1 = root.val;
+        dfs(root);
+        return ans < Integer.MAX_VALUE ? ans : -1;
+    }
+    
+    private void dfs(TreeNode root) {
+        if (root == null || root.val !=  min1 ) {
+            if (root != null && min1 < root.val && root.val < ans) {
+                ans = root.val;
+            }
+            return;
+        }
+        
+        dfs(root.left);
+        dfs(root.right);
+        
+    }
+}
