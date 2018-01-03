@@ -1,0 +1,34 @@
+// Two methods: DP (Time O(m + n)) and DFS (Time O(2 ^ m*n))
+// Method DP:
+
+class Solution {
+    public int minPathSum(int[][] grid) {
+        // Find path: either BFS or DP
+        // Method DP: maintian a 2D matrix, each place record miminum step need to reach here:
+        // Time O(m * n), Space O(m * n)
+        
+        int m = grid.length;
+        int n = grid[0].length;
+        
+        int[][] results = new int[m][n];
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0) {
+                    results[i][j] = grid[i][j];
+                } else if (i == 0) {
+                    results[i][j] = results[i][j - 1] + grid[i][j];
+                } else if (j == 0) {
+                    results[i][j] = results[i - 1][j] + grid[i][j];
+                } else {
+                    results[i][j] = Math.min(results[i][j - 1], results[i - 1][j]) + grid[i][j];
+                }
+            }
+        }
+        
+        return results[m - 1][n - 1];
+        
+    }
+}
+
+
