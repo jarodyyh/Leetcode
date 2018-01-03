@@ -1,0 +1,30 @@
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        // Find all paths, should use BFS
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+        if (root == null) {
+            return results;
+        }
+        
+        List<Integer> cur = new ArrayList<Integer>();
+        bfs(root, results, cur, sum);
+        return results;
+    }
+    
+    private void bfs(TreeNode root, List<List<Integer>> results, List<Integer> cur, int sum) {
+        if (root == null) {
+            return; 
+        }
+        
+        cur.add(root.val);
+        
+        if (root.left == null && root.right == null && sum == root.val) {
+            results.add(new ArrayList<Integer>(cur));
+        }
+        
+        bfs(root.left, results, cur, sum - root.val);
+        bfs(root.right, results, cur , sum - root.val);
+
+        cur.remove(cur.size() - 1);
+
+    }
