@@ -1,0 +1,34 @@
+class Solution {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        // thought: same method as iterate level by level
+        // only need to add new level at index of 0
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+        
+        if (root == null) {
+            return results;
+        }
+        
+        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        stack.offer(root);
+        
+        while(!stack.isEmpty()) {
+            int size = stack.size();
+            List<Integer> curList = new ArrayList<Integer>();
+            
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = stack.poll();
+                curList.add(cur.val);
+                if (cur.left != null) {
+                    stack.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    stack.offer(cur.right);
+                }
+            }
+            
+            results.add(0, curList);
+        }
+        
+        return results;
+    }
+}
