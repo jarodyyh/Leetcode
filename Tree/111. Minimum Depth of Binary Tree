@@ -1,0 +1,31 @@
+class Solution {
+    public int minDepth(TreeNode root) {
+        // thought: method BFS:
+        // iterative level by level, and return first null leaf node
+        if (root == null) {
+            return 0;
+        }
+        
+        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        stack.offer(root);
+        
+        int depth = 1;
+        
+        while(!stack.isEmpty()) {
+            int size = stack.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = stack.poll();
+                if (cur.left == null && cur.right == null) {
+                    return depth;
+                } if (cur.left != null)  {
+                    stack.offer(cur.left);
+                } if (cur.right != null) {
+                    stack.offer(cur.right);
+                }
+            }
+            
+            depth++;
+        }
+        return depth;
+    }
+}
