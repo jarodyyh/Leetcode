@@ -1,6 +1,6 @@
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
-       #### // thoughts: method DFS to find all paths
+        // thoughts: method DFS to find all paths
         // return string, should use a stringbuilder
         
         List<String> results = new ArrayList<String>();
