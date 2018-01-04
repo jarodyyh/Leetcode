@@ -1,0 +1,50 @@
+class Solution {
+    public int pathSum(int[] nums) {
+        // thoughts: two methods:
+        // method 1: reconstruct tree then DFS find all paths sum
+        // method 2: directly find path based on definition of values
+        
+        //method 2: 
+        // using HashMap to store if left or right node existed
+        // Map using num / 10 as key, num % 10 as value
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int num : nums) {
+            map.put(num / 10, num % 10);
+        }
+        int[] results = new int[]{0};
+        
+        int curKey = nums[0] / 10;
+        
+        dfs(map, curKey, results, 0);
+        
+        return results[0];
+    }
+    
+    private void dfs(HashMap<Integer, Integer> map, int curKey, int[] results, int curSum) {
+        // for each node, its left node = (depth + 1) * 10 + pos * 2; right node = left + 1;
+        
+        // 1. base case: if curKey is not in map, return;
+        // 2.            if is in map, add value to curSum
+        // 3. calculate left and right key
+        // 4. if no left and right key in map, add curSum to results
+        // 5. if has left and right key in map, recursion...
+        
+        
+        if (!map.containsKey(curKey)) {
+            return;
+        }
+        
+        curSum += map.get(curKey);
+        
+        int leftKey = 10 * (curKey / 10 + 1) + 2 * (curKey % 10) - 1;
+        int rightKey = leftKey + 1;
+        
+        if (!map.containsKey(leftKey) && !map.containsKey(rightKey) ) {
+            results[0] += curSum;
+        } else {   
+        
+            dfs(map, leftKey, results, curSum);
+            dfs(map, rightKey, results, curSum);
+        }
+    }
+}
