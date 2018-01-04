@@ -1,0 +1,33 @@
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        // thoughts: method DFS
+        // it is similar as find sum of all path
+        // difference: need to add depth info. into node
+        
+        int[] results = new int[]{0}; // store final output
+        
+        dfs(root, results, 0); 
+        
+        return results[0];
+    }
+    
+    private void dfs(TreeNode root, int[] results,  int curVal) {
+        // 1. base case: root == null, return;
+        // 2. add root.val to curVal with corresponding depth info.: curVal = curVal * 10 + val;
+        // 3. if no left and right children, add curVal to results
+        // 4. if has left and right children, recursion...
+        
+        if (root == null) {
+            return;
+        }
+        
+        curVal = curVal * 10 + root.val;
+        
+        if (root.left == null && root.right == null) {
+            results[0] += curVal;
+        } else {
+            dfs(root.left, results, curVal);
+            dfs(root.right, results, curVal);
+        }
+    }
+}
