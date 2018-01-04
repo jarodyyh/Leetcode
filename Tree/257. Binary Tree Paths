@@ -1,0 +1,78 @@
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        // thoughts: method DFS to find all paths
+        // return string, should use a stringbuilder
+        
+        List<String> results = new ArrayList<String>();
+        
+        if (root == null) {
+            return results;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        
+        dfs(root, results, sb);
+        
+        return results;
+    }
+    
+    private void dfs(TreeNode root, List<String> results, StringBuilder sb) {
+        // 1. base case: if root == null return
+        // 2. if not, add root to sb (if sb.length() is null, add root, if sb.length() != null, add "->" root)
+        // 3. if root.left and root.right == null, add new String to results
+        // 4. if not, recursion
+        
+        if (root == null) {
+            return;
+        }
+                
+
+        if (root.left == null && root.right == null) {
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i < sb.length() - 1; i++) {
+                sb2.append(sb.charAt(i));
+                sb2.append("->");
+            }
+            sb2.append(root.val);
+            
+            results.add(sb2.toString());
+            
+            sb.deleteCharAt(sb.length() - 1);
+
+
+            return;
+        } 
+        
+        dfs(root.left, results, sb.append(root.val));
+        dfs(root.right, results, sb.append(root.val)); 
+        
+        sb.deleteCharAt(sb.length() - 1);
+    }
+    
+    
+    
+    // simpler methods:
+        public List<String> binaryTreePaths(TreeNode root) {
+        List<String> results = new ArrayList<String>();
+        dfs(root, results, "");
+        return results;
+    }
+    
+    private void dfs(TreeNode root, List<String> results, String str) {
+        if (root == null) {
+            return;
+        }
+        
+        if (root.left == null && root.right == null) {
+            results.add(str + root.val);
+        }
+        if (root.left != null) {
+            dfs(root.left, results, str + root.val + "->");
+        }
+        if (root.right != null) {
+            dfs(root.right, results, str + root.val + "->");
+        }
+        
+    }
+}
