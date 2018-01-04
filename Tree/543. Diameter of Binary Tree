@@ -1,0 +1,29 @@
+class Solution {
+    
+    int diameter;
+    
+    public int diameterOfBinaryTree(TreeNode root) {
+        // thought: method: recursion
+        // 1. basic case root == null, return 0
+        // 2. ask from children: both longest left and longest right
+        // 3. send longest left or longest right
+        // 4. update longest vs. (left + right + 1) 
+        
+        diameter = 1;
+        helper(root);
+        return diameter - 1;
+    }
+    
+    private int helper(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        int left = helper(root.left);
+        int right = helper(root.right);
+        
+        diameter = Math.max(diameter, left + right + 1);
+        
+        return Math.max(left, right) + 1;
+    }
+}
