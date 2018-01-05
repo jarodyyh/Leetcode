@@ -8,22 +8,22 @@ class Solution {
             return results;
         }
         
-        // using stack
-        Deque<TreeNode> stack = new LinkedList<TreeNode>();
-        stack.offer(root);
+        // using queue
+        Deque<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
         
-        while (!stack.isEmpty()) {
-            int size = stack.size();
+        while (!queue.isEmpty()) {
+            int size = queue.size();
             List<Integer> curList = new ArrayList<Integer>();
             for (int i = 0; i < size; i++) {
-                TreeNode curNode = stack.poll();
+                TreeNode curNode = queue.poll();
                 curList.add(curNode.val);
                 
                 if (curNode.left != null) {
-                    stack.offer(curNode.left);
+                    queue.offer(curNode.left);
                 }
                 if (curNode.right != null) {
-                    stack.offer(curNode.right);
+                    queue.offer(curNode.right);
                 }
             }
             
