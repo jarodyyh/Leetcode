@@ -1,0 +1,41 @@
+class Solution {
+    public int countNodes(TreeNode root) {
+        // thought 1: normal iterate the whole tree node by node: time O(n), space O(1)
+        // thought 2: time O((logn)^2) : get heights from mostleft and mostright path;
+        // 1 << leftNum <==> 2^leftNum
+        // if leftHeight == rightHeight, return 2^height - 1
+        // if leftHeight != rightHeight, recurse root.left, root.right, add 1 into result
+        
+        // corner case:
+        if (root == null) {
+            return 0;
+        }
+        
+        int leftNum = getLeftHeight(root);
+        int rightNum = getRightHeight(root);
+        
+        if (leftNum == rightNum) {
+            return (1 << leftNum) - 1;
+        } else {
+            return 1 + countNodes(root.left) + countNodes(root.right);
+        }
+    }
+    
+    private int getLeftHeight(TreeNode root) {
+        int count = 0;
+        while (root != null) {
+            root = root.left;
+            count++;
+        }
+        return count;
+    }
+    
+    private int getRightHeight(TreeNode root) {
+        int count = 0;
+        while (root != null) {
+            root = root.right;
+            count++;
+        }
+        return count;
+    }
+}
