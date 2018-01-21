@@ -1,0 +1,41 @@
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        /*
+        though: 
+            1. preorder [root][left subtree][right subtree]
+            2. inorder [left subtree][root][right subtree]
+            3. get root from preorder, then find sizes of left and right subtrees in inorder
+            4. recursively doing this
+        */
+        
+        if (preorder.length <= 0 || inorder.length <= 0 || preorder.length != inorder.length) {
+            return null;
+        }
+        
+        Map<Integer, Integer> inorderMap = getMap(inorder);
+        
+        return helper(preorder, inorderMap, 0, preorder.length - 1, 0, inorder.length -1 );        
+    }
+    
+    private Map<Integer, Integer> getMap (int[] inorder) {
+        Map<Integer, Integer> newMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            newMap.put(inorder[i], i);
+        }
+        return newMap;
+    }
+    
+    private TreeNode helper(int[] preorder, Map<Integer, Integer> inorderMap, int preFInx, int preLInx, int inFInx, int inLInx) {
+        if (preFInx > preLInx || inFInx > inLInx) {
+            return null;
+        }
+        
+        TreeNode root = new TreeNode(preorder[preFInx]);
+        int inorderInx = inorderMap.get(root.val);
+        
+        root.left = helper(preorder, inorderMap, preFInx + 1, preFInx + inorderInx - inFInx, inFInx, inorderInx - 1);
+        root.right = helper(preorder, inorderMap, preFInx + inorderInx - inFInx + 1, preLInx, inorderInx + 1, inLInx);
+        
+        return root;         
+    }
+}
