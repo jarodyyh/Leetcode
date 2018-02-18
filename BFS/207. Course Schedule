@@ -1,0 +1,55 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // thought: graph BFS, using Queue
+        // the only false case is two courses require each other as prerequisite (circle)
+        // use queue to BFS 
+        
+        if (numCourses <= 1) {
+            return true;
+        }
+                
+        int numPrereq = prerequisites.length;
+        
+        // initialize ajacency matrix and int array for ready courses
+        int[][] matrix = new int[numCourses][numCourses];
+        int[] readyArray = new int[numCourses];
+        
+        // all courses can be diveded into two parts: need prerequesite or NOT need prerequesite
+        // 1. mark these two status for all courses in readyArray 
+        for (int i = 0; i < prerequisites.length; i++) {
+            int ready = prerequisites[i][0];
+            int prev = prerequisites[i][1];
+            if (matrix[prev][ready] == 0) {
+                readyArray[ready]++;        //!!! record the number of incoming nodes to ready
+            }
+            matrix[prev][ready] = 1;
+        }
+        
+        // use Queue to generate and extends courses
+        Queue<Integer> queue = new LinkedList<Integer>();
+        int count = 0;
+        
+        // initialize queue:
+        for (int i = 0; i < readyArray.length; i++) {
+            if (readyArray[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        
+        while (!queue.isEmpty()) {
+            int curCourse = queue.poll();
+            count++;
+            
+            // check if curCourse is the prerequisite of other course:
+            for (int i = 0; i < numCourses; i++) {
+                if (matrix[curCourse][i] != 0) { // has pair
+                    if (--readyArray[i] == 0) {
+                        queue.offer(i);
+                    }
+                }
+            }
+        }
+        
+        return count == numCourses;
+    }
+}
