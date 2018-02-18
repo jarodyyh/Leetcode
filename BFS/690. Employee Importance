@@ -1,0 +1,93 @@
+/*
+// Employee info
+class Employee {
+    // It's the unique id of each node;
+    // unique id of this employee
+    public int id;
+    // the importance value of this employee
+    public int importance;
+    // the id of direct subordinates
+    public List<Integer> subordinates;
+};
+*/
+
+// Method 1: 
+
+class Solution {
+    public int getImportance(List<Employee> employees, int id) {
+        
+        Queue<Employee> queue = new LinkedList<Employee>();
+        
+        int impTotal = 0;
+        for (Employee emp: employees) {
+            if (emp.id == id) {
+                queue.offer(emp);
+            }
+        }
+        
+        while(!queue.isEmpty()) {
+            Employee emp = queue.poll();
+            impTotal += emp.importance;
+            
+            if (emp.subordinates != null) {
+                for (Integer sub: emp.subordinates) {
+                    for (Employee emp2: employees) {
+                        if (emp2.id == sub) {
+                            queue.offer(emp2);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return impTotal;
+        
+    }
+}
+
+
+// Method 2:
+
+/*
+// Employee info
+class Employee {
+    // It's the unique id of each node;
+    // unique id of this employee
+    public int id;
+    // the importance value of this employee
+    public int importance;
+    // the id of direct subordinates
+    public List<Integer> subordinates;
+};
+*/
+class Solution {
+    public int getImportance(List<Employee> employees, int id) {
+        
+        Queue<Employee> queue = new LinkedList<Employee>();
+        
+        // improve: use HashMap to help find employee from id:
+        HashMap<Integer, Employee> map = new HashMap<Integer, Employee>();
+        
+        for (Employee emp: employees) {
+            map.put(emp.id, emp);
+        }
+        
+        int impTotal = 0;
+        
+        queue.offer(map.get(id));
+        
+        while(!queue.isEmpty()) {
+            Employee emp = queue.poll();
+            impTotal += emp.importance;
+            
+            if (emp.subordinates != null) {
+                for (Integer sub: emp.subordinates) {
+                    queue.offer(map.get(sub));
+                }
+            }
+        }
+        
+        return impTotal;
+        
+    }
+}
