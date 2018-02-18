@@ -1,0 +1,50 @@
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        // thought: same as course schedule I
+        // use queue to sort 
+        
+        int[] results = new int[numCourses];
+        if (numCourses <= 0) {
+            return results;
+        }
+        
+        // adjacency matrix:
+        int[][] matrix = new int[numCourses][numCourses];
+        int[] readyArray = new int[numCourses];
+        
+        for (int i = 0; i < prerequisites.length; i++) {
+            int ready = prerequisites[i][0];
+            int prev = prerequisites[i][1];
+            if (matrix[prev][ready] == 0) {
+                readyArray[ready]++;
+            }
+            matrix[prev][ready] = 1;
+        }
+        
+        // initialize queue
+        Queue<Integer> queue = new LinkedList<Integer>();
+        
+        for (int i = 0; i < readyArray.length; i++) {
+            if (readyArray[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        
+        int index = 0;
+        while(!queue.isEmpty()) {
+            int curCourse = queue.poll();
+            results[index++] = curCourse;
+            
+            for (int i = 0; i < prerequisites.length; i++) {
+                if (prerequisites[i][1] == curCourse) {
+                    readyArray[prerequisites[i][0]]--;
+                    if (readyArray[prerequisites[i][0]] == 0) {
+                        queue.offer(prerequisites[i][0]);
+                    }
+                }
+            }
+            
+        }
+        return (index == numCourses) ? results : new int[0];    // still need to check circle
+    }
+}
