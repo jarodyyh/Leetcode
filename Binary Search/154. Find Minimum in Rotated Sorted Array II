@@ -1,0 +1,30 @@
+class Solution {
+    public int findMin(int[] nums) {
+        // if has duplications, some special cases need to be address:
+        // 1. minimum value has duplicated? it is easy and same as before;
+        // 2. boundary value has duplicated? add a check criteria
+        
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        
+        int left = 0;
+        int right = nums.length - 1;
+        
+        while (left < right - 1) {
+            int mid = left + (right - left) / 2;
+            
+            if (nums[mid] < nums[right]) {
+                right = mid;
+            } else if (nums[mid] > nums[right]) {
+                left = mid;
+            } else {
+                right--;
+            }
+            
+        }
+        
+        return nums[left] <= nums[right] ? nums[left] : nums[right];
+        
+    }
+}
