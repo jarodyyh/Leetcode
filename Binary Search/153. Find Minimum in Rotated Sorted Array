@@ -1,0 +1,36 @@
+class Solution {
+    public int findMin(int[] nums) {
+        // method: use binary search
+        
+        // what should be the output for corner case of null input
+        
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        
+        int left = 0;
+        int right = nums.length - 1;
+        
+        while (left < right - 1) {
+            int mid = left + (right - left) / 2;
+            
+            // if (nums[mid] < nums[left] || nums[mid] > nums[left] && nums[mid] < nums[right]) {
+            //     right = mid;
+            // } else if (nums[mid] > nums[left] && nums[mid] > nums[right]) {
+            //     left = mid;
+            // } 
+            
+            if (nums[mid] < nums[right]) {
+                right = mid;
+            } else {
+                left = mid;
+            }
+            
+        }
+        
+        return nums[left] < nums[right] ? nums[left] : nums[right];
+        
+        
+        
+    }
+}
