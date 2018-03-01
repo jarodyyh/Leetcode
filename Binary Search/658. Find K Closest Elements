@@ -1,0 +1,68 @@
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        // method: find the target/closest in the first step (binary search O(logn))
+        //         then, use two pointer to search k-th closest
+        
+        List<Integer> res = new ArrayList<>();
+        
+        if (arr.length < 1 || arr == null) {
+            return res;
+        }
+        
+        if (arr.length == 1) {
+            res.add(arr[0]);
+            return res;
+        }
+        
+        if (x < arr[0]) {
+            for (int i = 0; i < k; i++) {
+                res.add(arr[i]);
+            }
+            return res;
+        } else if (x > arr[arr.length - 1]) {
+            for (int i = arr.length - k; i < arr.length; i++) {
+                res.add(arr[i]);
+            }
+            return res;
+        } else {
+        
+            int left = 0;
+            int right = arr.length - 1;
+
+            while (left + 1 < right) {
+                int mid = left + (right - left) / 2;
+
+                if (arr[mid] <= x) {
+                    left = mid;
+                } else {
+                    right = mid;
+                }
+            }
+
+            if (arr[right] <= x) {
+                 return findClosest(arr, res, right, k, x);
+            } else {
+                 return findClosest(arr, res, left, k, x);
+            }
+        }
+    }
+    
+    private List<Integer> findClosest(int[] arr, List<Integer> res, int index, int k, int x) {
+        int left = index;
+        int right = index + 1;
+        
+
+        for (int i = 0; i < k; i++) {
+            if (right >= arr.length || left >= 0 && (x - arr[left] <= arr[right] - x)) {
+                left--;
+            } else {
+                right++;
+            }
+        }
+        
+        for (int i = left + 1; i < right; i++) {
+            res.add(arr[i]);
+        }
+        return res;
+    }
+}
