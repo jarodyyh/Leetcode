@@ -1,0 +1,30 @@
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        // method: dp, O(n^2)
+        
+        if (nums.length < 0 || nums == null) {
+            return 0;
+        }
+        
+        // int array to store the longest subseq length at index i
+        int[] longestLength = new int[nums.length];
+        
+        // int to track the current longest length
+        int curLongest = 0;
+        
+        for (int i = 0; i < nums.length; i++) {
+            // initialize longestLength with 1
+            longestLength[i] = 1;
+            
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    longestLength[i] = Math.max(longestLength[i], longestLength[j] + 1);
+                }
+            }
+            
+            curLongest = Math.max(curLongest, longestLength[i]);
+        }
+        
+        return curLongest;
+    }
+}
