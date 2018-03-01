@@ -1,0 +1,26 @@
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        // method 0: since it need to keep the order, so map/set is not suitable
+        //         use two pointers
+        
+        int sIndex = 0;
+        int tIndex = 0;
+        
+        while (sIndex < s.length() && tIndex < t.length()) {
+            if (s.charAt(sIndex) == t.charAt(tIndex)) {
+                sIndex++;
+                tIndex++;
+            } else {
+                tIndex++;
+            }
+        }
+        
+        if (sIndex != s.length()) {
+            return false;
+        } else {
+            return true;
+        }
+        
+        
+    }
+}
