@@ -1,0 +1,23 @@
+class Solution {
+    public int lengthOfLastWord(String s) {
+        // method: backward check letters, count word length util space
+        // corner case: empty input; last letter is space; consecutive space
+        
+        if (s == null) {
+            return 0;
+        }
+        
+        char[] charS = s.toCharArray();
+
+        int length = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (charS[i] ==  ' ' && length != 0) {
+                break;
+            } else if (charS[i] != ' ') {
+                length++;
+            }
+        }
+        
+        return length;
+    }
+}
