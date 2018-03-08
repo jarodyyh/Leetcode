@@ -1,0 +1,82 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode addOneRow(TreeNode root, int v, int d) {
+        //For tree, use BFS and DFS:
+        
+        // Method DFS:
+        
+//         if (d == 1) {
+//             TreeNode newRoot = new TreeNode(v);
+//             newRoot.left = root;
+//             return newRoot;
+//         }
+        
+//         insertValue(root, v, d, 1);     // recursion of DFS
+//         return root;
+//     }
+    
+//     private void insertValue(TreeNode root, int v, int d, int level) {
+//         if (root == null) {
+//             return;
+//         }
+        
+//         if (level == d - 1) {
+//             TreeNode leftTmp = root.left;
+//             TreeNode rightTmp = root.right;
+//             root.left = new TreeNode(v);
+//             root.left.left = leftTmp;
+//             root.right = new TreeNode(v);
+//             root.right.right = rightTmp;
+//             return;
+//         }
+        
+//         insertValue(root.left, v, d, level + 1);
+//         insertValue(root.right, v, d, level + 1);
+//     }
+        
+        // method BFS:
+        if (d == 1) {
+            TreeNode newRoot = new TreeNode(v);
+            newRoot.left = root;
+            return newRoot;
+        }
+        
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+        
+        int level = 1;
+        while (!queue.isEmpty() && level < d - 1) {
+            int queueSize = queue.size();
+            for (int i = 0; i < queueSize; i++) {
+                TreeNode cur = queue.poll();
+                if (cur.left != null) {
+                    queue.add(cur.left);
+                } 
+                if (cur.right != null) {
+                    queue.add(cur.right);
+                }
+            }
+            level++;
+        }
+        
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.poll();
+            TreeNode leftTmp = cur.left;
+            TreeNode rightTmp = cur.right;
+            cur.left = new TreeNode(v);
+            cur.left.left = leftTmp;
+            cur.right = new TreeNode(v);
+            cur.right.right = rightTmp;
+        }
+        
+        return root;
+    }        
+}
